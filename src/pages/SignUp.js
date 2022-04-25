@@ -1,3 +1,4 @@
+import { LoadingButton } from "@mui/lab";
 import { Box, Button, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -11,15 +12,16 @@ export default function SignUp() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [repeatPassword, setRepeatPassword] = useState('');
-    const [alert, setAlert] = useState(false);
+    const [error, setError] = useState(false);
     const [active, setActive] = useState(true);
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
         if (repeatPassword !== password) {
-            setAlert(true);
+            setError(true);
         } else {
-            setAlert(false);
+            setError(false);
         }
         if (email && password && repeatPassword && repeatPassword === password) {
             setActive(false);
@@ -30,13 +32,20 @@ export default function SignUp() {
 
     async function handleSignUp(e) {
         e.preventDefault();
-
+        setLoading(true);
         try {
             await api.signup(email, password, repeatPassword);
             console.log("created")
         } catch (error) {
-            console.log(error.response.data);
+            signUpError(error.response.data)
         }
+    }
+
+    function signUpError(err) {
+        setTimeout(() => {
+            setLoading(false);
+            alert(err);
+        }, 1000);
     }
 
     return (
@@ -88,7 +97,7 @@ export default function SignUp() {
                     fullWidth
                     value={repeatPassword}
                     onChange={e => setRepeatPassword(e.target.value)}
-                    error={alert}
+                    error={error}
                 />
 
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', margin: '30px 0 0 0', alignContent: 'center' }}>
@@ -98,13 +107,14 @@ export default function SignUp() {
                     >
                         Já possui uma conta?
                     </Button>
-                    <Button
+                    <LoadingButton
+                        loading={loading}
                         variant="contained"
                         type="submit"
                         disabled={active}
                     >
                         Cadastrar
-                    </Button>
+                    </LoadingButton>
                 </Box>
 
             </Box >

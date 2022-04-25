@@ -6,16 +6,20 @@ import useAuth from "../hooks/useAuth";
 import Container from "../components/Container";
 import LogoRepo from "../components/Logo";
 import Title from "../components/TitleSign";
-
+import { LoadingButton } from "@mui/lab";
 export default function SignIn() {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [active, setActive] = useState(true);
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const { setToken } = useAuth();
 
     useEffect(() => {
+        if (localStorage.getItem('userAuth')) {
+            navigate('/')
+        }
         if (email && password) {
             setActive(false);
         } else {
@@ -27,25 +31,23 @@ export default function SignIn() {
         e.preventDefault();
 
         try {
+            setLoading(true);
             const userAuth = await api.signin(email, password);
             localStorage.setItem("userAuth", userAuth.data);
             setToken(userAuth.data);
             navigate('/');
 
         } catch (error) {
-            console.log(error);
+            loginError(error.response.data)
         }
     }
 
-    /* async function logout(token) {
-        try {
-            await api.logout(token);
-            localStorage.removeItem('userAuth');
-            setToken(null);
-        } catch (error) {
-            console.log(error.response.data)
-        }
-    } */
+    function loginError(err) {
+        setTimeout(() => {
+            setLoading(false)
+            alert(err)
+        }, 1000);
+    }
 
     return (
         <Container>
@@ -96,13 +98,14 @@ export default function SignIn() {
                     >
                         Não possui uma conta?
                     </Button>
-                    <Button
+                    <LoadingButton
+                        loading={loading}
                         variant="contained"
                         type="submit"
                         disabled={active}
                     >
                         Entrar
-                    </Button>
+                    </LoadingButton>
                 </Box>
 
             </Box >

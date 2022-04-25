@@ -7,11 +7,13 @@ import styled from "styled-components";
 import TestsByTerm from "../components/TestsByTerm";
 import TestsByTeacher from "../components/TestsByTeacher";
 import { Button } from "@mui/material";
+import LogoutIcon from '@mui/icons-material/Logout';
+
 
 export default function Main() {
     const [data, setData] = useState('');
     const [active, setActive] = useState(true);
-    const { token } = useAuth();
+    const { token, setToken } = useAuth();
     const navigate = useNavigate();
     const auth = localStorage.getItem('userAuth');
     useEffect(() => {
@@ -30,8 +32,21 @@ export default function Main() {
         }
     }
 
+    async function logout() {
+        try {
+            await api.logout(localStorage.getItem('userAuth'));
+            localStorage.removeItem('userAuth');
+            window.location.reload(false)
+        } catch (error) {
+            console.log(error.response.data)
+        }
+    }
+
     return (
         <Container>
+            <Exit onClick={() => logout(token)}>
+                <LogoutIcon></LogoutIcon>
+            </Exit>
             {data &&
                 <AccordionContainer>
                     <ContainerButtons>
@@ -63,4 +78,19 @@ const ContainerButtons = styled.div`
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
+`
+
+const Exit = styled.div`
+    position: absolute;
+    top: 30px;
+    right: 130px;
+    background-color: #1976D2;
+    box-shadow: 0px 5px 5px 2px rgba(0,0,0,.2);
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    :hover {
+        background-color: #fff;
+        color: #1976D2;
+    }
 `
