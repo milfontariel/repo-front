@@ -1,10 +1,11 @@
 import { Accordion, AccordionDetails, AccordionSummary, Typography } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { ViewBox } from "./TestsByTerm";
+import * as api from "../services/api";
 
 export default function TestsByTeacher({ data }) {
 
     function orderItems(data) {
-        console.log(data)
         const hashByTeacher = {};
         for (let i = 0; i < data.length; i++) {
             if (!hashByTeacher[data[i].teacherDiscipline.teacher.name]) {
@@ -30,6 +31,11 @@ export default function TestsByTeacher({ data }) {
         return orderByTeachers;
     }
     const teachers = orderItems(data[0]);
+
+    async function putView(id, url) {
+        window.open(url, '_blank');
+        await api.view(localStorage.getItem('userAuth'), id);
+    }
 
     return (
         <>
@@ -57,7 +63,9 @@ export default function TestsByTeacher({ data }) {
                                                         {category.map(test => {
                                                             return (
                                                                 <Typography>
-                                                                    <span>2022</span> - <a href={test.pdfUrl}>{test.name}</a> ({test.teacherDiscipline.discipline.name})
+                                                                    <ViewBox onClick={() => { putView(test.id, test.pdfUrl); test.views++ }}>
+                                                                        <span>2022</span> - {test.name} ({test.teacherDiscipline.teacher.name}) | {test.views} visualizações
+                                                                    </ViewBox>
                                                                 </Typography>
                                                             )
                                                         })}

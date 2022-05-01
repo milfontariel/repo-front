@@ -1,5 +1,5 @@
 import { LoadingButton } from "@mui/lab";
-import { Box, FormControl, FormHelperText, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { Box, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import useAuth from "../hooks/useAuth";
 import * as api from "../services/api";
@@ -61,7 +61,6 @@ export default function AddTest() {
     useEffect(() => {
         async function fetchTeachers() {
             const { data } = await api.getTeachers(token, discipline);
-            console.log(data.teachers);
             setTeachers(data.teachers);
         }
         if (discipline) {

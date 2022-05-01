@@ -15,7 +15,6 @@ import AddTest from "../components/AddTest";
 
 export default function Main() {
     const [data, setData] = useState('');
-    const [active, setActive] = useState(true);
     const { token } = useAuth();
     const [search, setSearch] = useState('');
     const [get, setGet] = useState(false);

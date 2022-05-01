@@ -1,7 +1,7 @@
 import { Accordion, AccordionDetails, AccordionSummary, Typography } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import styled from "styled-components";
-import * as api from "../services/api"
+import * as api from "../services/api";
 
 export default function TestsByTerm({ data }) {
 
@@ -108,7 +108,7 @@ export default function TestsByTerm({ data }) {
     )
 }
 
-const ViewBox = styled.div`
+export const ViewBox = styled.div`
     &:hover {
         cursor: pointer;
         background-color: #f1f1f1;

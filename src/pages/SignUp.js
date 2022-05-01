@@ -35,7 +35,6 @@ export default function SignUp() {
         setLoading(true);
         try {
             await api.signup(email, password, repeatPassword);
-            console.log("created")
         } catch (error) {
             signUpError(error.response.data)
         }
