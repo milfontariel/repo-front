@@ -1,5 +1,7 @@
 import { Accordion, AccordionDetails, AccordionSummary, Typography } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import styled from "styled-components";
+import * as api from "../services/api"
 
 export default function TestsByTerm({ data }) {
 
@@ -22,7 +24,10 @@ export default function TestsByTerm({ data }) {
 
         const terms = Object.keys(hashByTerm);
         const orderByTerm = Array(terms.length);
-        for (let i = 1; i <= terms.length; i++) {
+        for (let i = terms[0]; i <= terms[terms.length - 1]; i++) {
+            if (!hashByTerm[i]) {
+                continue
+            }
             const disciplines = Object.keys(hashByTerm[i]);
             orderByTerm[i - 1] = Array(disciplines.length);
             for (let j = 0; j < disciplines.length; j++) {
@@ -30,6 +35,11 @@ export default function TestsByTerm({ data }) {
             }
         }
         return orderByTerm;
+    }
+
+    async function putView(id, url) {
+        window.open(url, '_blank');
+        await api.view(localStorage.getItem('userAuth'), id);
     }
 
     const terms = orderItems(data[0]);
@@ -73,7 +83,9 @@ export default function TestsByTerm({ data }) {
 
                                                                             return (
                                                                                 <Typography>
-                                                                                    <span>2022</span> - <a href={categ.pdfUrl}>{categ.name}</a> ({categ.teacherDiscipline.teacher.name})
+                                                                                    <ViewBox onClick={() => { putView(categ.id, categ.pdfUrl); categ.views++ }}>
+                                                                                        <span>2022</span> - {categ.name} ({categ.teacherDiscipline.teacher.name}) | {categ.views} visualizações
+                                                                                    </ViewBox>
                                                                                 </Typography>
                                                                             )
                                                                         }
@@ -95,3 +107,10 @@ export default function TestsByTerm({ data }) {
         </>
     )
 }
+
+const ViewBox = styled.div`
+    &:hover {
+        cursor: pointer;
+        background-color: #f1f1f1;
+    }
+`

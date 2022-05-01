@@ -4,6 +4,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 export default function TestsByTeacher({ data }) {
 
     function orderItems(data) {
+        console.log(data)
         const hashByTeacher = {};
         for (let i = 0; i < data.length; i++) {
             if (!hashByTeacher[data[i].teacherDiscipline.teacher.name]) {
