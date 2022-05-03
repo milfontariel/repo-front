@@ -34,7 +34,10 @@ export default function SignUp() {
         e.preventDefault();
         setLoading(true);
         try {
-            await api.signup(email, password, repeatPassword);
+            await api.signup(email, password);
+            setTimeout(() => {
+                navigate("/signin");
+            }, 2000);
         } catch (error) {
             signUpError(error.response.data)
         }

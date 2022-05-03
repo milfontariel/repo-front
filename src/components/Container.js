@@ -11,7 +11,7 @@ export default function Container({ children }) {
 const Background = styled.div`
     width: 100vw;
     min-height: 100vh;
-    background-color: #1976D2;
+    background-color: #fff;
     color: #fff;
     display: flex;
     flex-direction: column;

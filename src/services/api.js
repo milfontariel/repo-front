@@ -10,8 +10,8 @@ function createConfig(token) {
     };
 }
 
-export async function signup(email, password, repeatPassword) {
-    const data = { email, password, repeatPassword };
+export async function signup(email, password) {
+    const data = { email, password };
     await axios.post(`${BASE_URL}/signup`, data);
 }
 
@@ -27,7 +27,7 @@ export async function logout(token) {
 
 export async function get(token, search) {
     const config = createConfig(token);
-    return await axios.get(`${BASE_URL}/get?search=${search}`, config);
+    return await axios.get(`${BASE_URL}/tests?search=${search}`, config);
 }
 
 export async function view(token, id) {

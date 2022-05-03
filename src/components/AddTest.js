@@ -81,7 +81,8 @@ export default function AddTest() {
                 backgroundColor: '#fff',
                 padding: '40px',
                 borderRadius: '10px',
-                boxSizing: "border-box"
+                boxSizing: "border-box",
+                border: '2px solid #1976D2'
             }}
             onSubmit={e => handlePostTest(e)}
         >

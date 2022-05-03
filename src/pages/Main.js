@@ -50,7 +50,7 @@ export default function Main() {
 
     return (
         <Container>
-            <LogoRepo width='40%'></LogoRepo>
+            <LogoRepo width='20%'></LogoRepo>
             <Paper
                 sx={{ p: "2px 4px", display: display === 'add' ? 'none' : 'flex', alignItems: "center", width: '70vw', marginBottom: '40px' }}
             >
@@ -94,7 +94,6 @@ const AccordionContainer = styled.div`
 `
 
 const ChoiceBox = styled.div`
-    
 `
 
 const ContainerButtons = styled.div`
